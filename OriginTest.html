@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Origin Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { margin: 10px; padding: 10px; }
+        #result { margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    Test about:blank
+    <button onclick="testAboutBlank()">Open Blank Page</button>
+    <button onclick="testAboutBlankNonblankPage()">Open Non-blank Page</button>
+    <br>
+    Test javascript:;
+    <button onclick="testJavascript()">Open Blank Page</button>
+    <button onclick="testJavascriptNonblankPage()">Open Non-blank Page</button>    
+
+
+    <div id="result"></div>
+
+    <script>
+        function testAboutBlank() {
+            try {
+                const newWindow = window.open('about:blank');
+                const childOrigin = newWindow.location.origin;
+                const parentOrigin = window.location.origin;
+                const output = `Parent origin: ${parentOrigin}\n`
+                             + `Child origin: ${childOrigin}\n`
+                             + `Same origin? ${childOrigin === parentOrigin ? 'Yes' : 'No'}`;
+                
+                // newWindow.close();
+                document.getElementById('result').textContent = output;
+            } catch (e) {
+                document.getElementById('result').textContent = `Error: ${e.message}`;
+            }
+        }
+        function testAboutBlankNonblankPage() {
+            try {
+                const newWindow = window.open('about:blank');
+                newWindow.document.write('123');
+                const childOrigin = newWindow.location.origin;
+                const parentOrigin = window.location.origin;
+                const output = `Parent origin: ${parentOrigin}\n`
+                             + `Child origin: ${childOrigin}\n`
+                             + `Same origin? ${childOrigin === parentOrigin ? 'Yes' : 'No'}`;
+                // newWindow.close();
+                document.getElementById('result').textContent = output;
+            } catch (e) {
+                document.getElementById('result').textContent = `Error: ${e.message}`;
+            }
+        }
+        
+        function testJavascript() {
+            try {
+                const newWindow = window.open('javascript:;');
+                const childOrigin = newWindow.location.origin;
+                const parentOrigin = window.location.origin;
+                
+                const output = `Parent origin: ${parentOrigin}\n`
+                             + `Child origin: ${childOrigin}\n`
+                             + `Same origin? ${childOrigin === parentOrigin ? 'Yes' : 'No'}`;
+                
+                newWindow.close();
+                document.getElementById('result').textContent = output;
+            } catch (e) {
+                document.getElementById('result').textContent = `Error: ${e.message}`;
+            }
+        }
+        function testJavascriptNonblankPage() {
+            try {
+                const newWindow = window.open('javascript:;');
+                newWindow.document.write('123');
+                const childOrigin = newWindow.location.origin;
+                const parentOrigin = window.location.origin;
+                
+                const output = `Parent origin: ${parentOrigin}\n`
+                             + `Child origin: ${childOrigin}\n`
+                             + `Same origin? ${childOrigin === parentOrigin ? 'Yes' : 'No'}`;
+                
+                newWindow.close();
+                document.getElementById('result').textContent = output;
+            } catch (e) {
+                document.getElementById('result').textContent = `Error: ${e.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
