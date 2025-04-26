@@ -5,6 +5,8 @@ More information about this can be seen in this page: https://zhuanlan.zhihu.com
 ## InheritanceOfOrigin 
 When using `about:blank` and `javascript:` to open a new page, then this page will inherit the origin.
 
+## SimpleComplexRequest 
+Testing the different processes between simple request and complex request from browser.
 
 ## Recommended Tools 
 PHPstudy is an integrated tool for running web page on personal computers. More info can be seen from website below:
