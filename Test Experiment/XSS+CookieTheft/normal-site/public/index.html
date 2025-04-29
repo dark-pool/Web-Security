@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Platform (Experimental Demonstration)</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container { max-width: 800px; margin: 20px auto; }
+        .comment-box { background: #f8f9fa; padding: 20px; border-radius: 8px; }
+        .comment { padding: 10px; margin: 10px 0; border-left: 3px solid #0d6efd; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Social Platform Login </h2>
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username" placeholder="Username" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="comment-box">
+        <form action="/comment" method="POST">
+            <textarea class="form-control mb-2" name="comment" rows="3"></textarea>
+            <button type="submit" class="btn btn-success">Submit Comment</button>
+        </form>
+        <div id="comments" class="mt-4">
+            <h4>Latest Comments</h4>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 动态加载评论
+    fetch('/comments')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('comments');
+            data.forEach(comment => {
+                const div = document.createElement('div');
+                div.className = 'comment';
+                div.innerHTML = comment; // 危险！直接渲染未过滤内容
+                container.prepend(div);
+            });
+        });
+</script>
+</body>
+</html>
