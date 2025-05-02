@@ -31,7 +31,7 @@ app.post('/comment', (req, res) => {
     res.redirect('/');
 });
 
-// 获取评论
+// Get Comments
 app.get('/comments', (req, res) => {
     res.json(comments);
 });
