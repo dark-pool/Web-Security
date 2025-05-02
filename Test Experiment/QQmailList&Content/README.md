@@ -1,5 +1,5 @@
 # What is it about?
-
+![Logic](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/QQmailList%26Content/Output/Inkodo-202552_15433.png)  
 
 # How to use this?
 + For `payload.js`:  
@@ -9,7 +9,7 @@ Modify the value of variable `serverURL` to your server 's IP address
 + `node .\evil-server.js` (The evil-server is running on: http://localhost:4000)
 + Open the browser, log in QQ mail website, copy JavaScript code from `payload.js` and paste it in the console Tab of browser(This step is for simulating innocent users who click the XSS attacked page)  
 ![Payload](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/QQmailList%26Content/Output/20250502083644.png)  
-+ Evil server will receive the mail list and content data from users, which will be stored in `/mails` directory
++ Evil server will receive the mail list and content data from users, which will be stored in `/mails` directory  
 Mail list naming format: `sid + _mailList.html`  
 Mail Content naming format: `sid + _mailContent_ + mid + .html`  
 ![Evil-server terminal](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/QQmailList%26Content/Output/20250502083918.png)  
