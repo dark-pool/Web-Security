@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clickjacking Demo</title>
+    <style>
+        /* Hidden iframe styling */
+        #hiddenFrame {
+            position: absolute;
+            top: 100px;  /* Frame position */
+            left: 100px;
+            width: 250px;
+            height: 150px;
+            opacity: 0.1;
+            z-index: 1;
+            border: 1px dashed red; /* Visual guide for debugging */
+        }
+
+        /* Decoy button styling - MUST align with iframe content */
+        #decoyButton {
+            position: absolute;
+            top: 140px;  /* Adjusted to match iframe's internal button position */
+            left: 140px;
+            z-index: 2;
+            padding: 15px 25px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            /* Disable pointer events to allow click-through */
+            pointer-events: none;
+        }
+
+        /* Visual alignment helper */
+        .debug-box {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            width: 250px;
+            height: 150px;
+            border: 2px dashed #ccc;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clickjacking Demo</h1>
+    
+    <!-- Visual alignment helper (for demonstration only) -->
+    <div class="debug-box"></div>
+    
+    <!-- Decoy button -->
+    <div id="decoyButton">Win Free iPhone! 📱</div>
+
+    <!-- Hidden iframe -->
+    <iframe id="hiddenFrame" src="hidden-page.html"></iframe>
+
+    <!-- Hidden page content -->
+    <script type="text/template" id="hiddenTemplate">
+        <html>
+            <body style="margin: 0; padding: 20px;">
+                <button onclick="alert('Bank transfer confirmed!')" 
+                        style="position: relative;
+                               top: 40px;
+                               left: 40px;
+                               padding: 15px 25px;
+                               background: #2196F3;
+                               color: white;
+                               border: none;
+                               border-radius: 5px;">
+                    Confirm Transaction
+                </button>
+            </body>
+        </html>
+    </script>
+
+    <script>
+        const frame = document.getElementById('hiddenFrame');
+        const template = document.getElementById('hiddenTemplate').innerHTML;
+        frame.srcdoc = template;
+    </script>
+</body>
+</html>
