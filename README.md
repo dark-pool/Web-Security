@@ -3,9 +3,9 @@ A series of experiments for inhancing the intuitive understanding of some knowle
 It should be noted that the content of this project is only for learning purposes. Do not use it for illegal purposes; otherwise, the consequences will be borne by yourself.  
 
 ## Three Key Elements
-Confidentiality (Encode and Decode)
-Integrity (Digital signature)
-Availability( Distributed System )
++ Confidentiality (Encode and Decode)  
++ Integrity (Digital signature)  
++ Availability( Distributed System )  
 
 ## What is Security Assessment ?
 Security Assessment consists of four steps:
@@ -16,8 +16,8 @@ Security Assessment consists of four steps:
 
 ### Why need low coupling?
 Low coupling is a concept from software design that emphasizes minimizing dependencies between different components , modules, or classes in a system . 
-It ensures that changes to one part of the system have minimal impact on other parts.
-For example, in a web application, if a PaymentProcessor class directly depends on a specific Database Connection class, so that change database would require rewriting the PaymentProcessor class, this is the drawback of high coupling.
+It ensures that changes to one part of the system have minimal impact on other parts.  
+For example, in a web application, if a PaymentProcessor class directly depends on a specific Database Connection class, so that change database would require rewriting the PaymentProcessor class, this is the drawback of high coupling.  
 
 ### What is STRIDE MODEL?
 This model is developed by Microsoft researchers in 1999.
@@ -28,11 +28,11 @@ This model is developed by Microsoft researchers in 1999.
 + Denial of Service ( Availability )
 + Elevation of Privilege ( Authorization )  
 > Difference : Authentication & Authorization 
-Authentication verifies who you are ( a user, device, or system ) through username/password login or biometric verification( fingerprint , facial recognition ) or multi-factor Authentication(e.g. SMS code + password) 
-Authorization determines what you can assess, that is grants or restricts permissions to resources  after Authentication. For example, grant read-only access to a database for certain roles, allow an admin to delete files but restrict regular users
+Authentication verifies who you are ( a user, device, or system ) through username/password login or biometric verification( fingerprint , facial recognition ) or multi-factor Authentication(e.g. SMS code + password)  
+Authorization determines what you can assess, that is grants or restricts permissions to resources  after Authentication. For example, grant read-only access to a database for certain roles, allow an admin to delete files but restrict regular users  
 
 ### What is DREAD MODEL?
-This model is also developed by Microsoft.
+This model is also developed by Microsoft.  
 | Level | Low | Medium | High |
 | ------ | ------ | ------| ------ |
 |Damage Potential : How severe the impact would be if the threat is exploited|Leak simple information|Leak sensitive information|Full verification  permission; Perform administrator operations; Illegally upload files, etc.
@@ -42,24 +42,24 @@ Affected Users : The scale of users or systems impacted|Very few users, anonymou
 Discoverability: How easily the vulnerability could be found|Require deep system knowledge to detect, that is hard to find|In private area, some people could see it and need to dig deeper into the vulnerability|Visible in public APIs or error message
 
 > **Example** 
-Threat: SQL Injection in a login page 
-Damage Potential : 3(Data theft possible )
-Reproducibility: 3(Exploit code is public )
-Exploitability: 3 (Simple tools)
-Affected Users : 3 (All users)
-Discoverability: 2 (Visible in error logs)
-Total score: 14/15，critical priority 
+Threat: SQL Injection in a login page  
+Damage Potential : 3(Data theft possible )  
+Reproducibility: 3(Exploit code is public )  
+Exploitability: 3 (Simple tools)  
+Affected Users : 3 (All users)  
+Discoverability: 2 (Visible in error logs)  
+Total score: 14/15，critical priority  
 
 ## Security Principles
 ### Security By Default
-Blacklist + Whitelist
-Minimal Privilege : Grant necessary Privilege to the user
+Blacklist + Whitelist  
+Minimal Privilege : Grant necessary Privilege to the user  
 ### Defense in Depth 
-Different layers achieve different solutions 
-Do the right thing at the right place
+Different layers achieve different solutions  
+Do the right thing at the right place  
 > **Example: UTM(Unified Threat Management )**
-UTM is an integrated solution that combines multiple features into a single platform or application to protect networks from a wide range of threats, particularly suited for small to medium-sized businesses (SMBs).
-It acts as a centralized gateway, inspecting all network traffic and applying layered security policies. However, it does not follow defense in depth principle.
+UTM is an integrated solution that combines multiple features into a single platform or application to protect networks from a wide range of threats, particularly suited for small to medium-sized businesses (SMBs).  
+It acts as a centralized gateway, inspecting all network traffic and applying layered security policies. However, it does not follow defense in depth principle.  
 ### Data and Code Separation 
 Defend against SQL Injection , CRLF, X-Path, XSS, Buffer Overflow ,etc. 
 ### Unpredictability
@@ -67,22 +67,22 @@ For Web application, unpredictablility could be used to defend against:
 + Web crawlers/Spiders(id=1,2，3...)
 + CSRF(e.g., randomized token)
 
-Most use techniques include: hash function, encode/decode functions, and randomized functions.
+Most use techniques include: hash function, encode/decode functions, and randomized functions.  
 > **Example:** 
 Microsoft Windows have vulnerability of buffer overflow attacks or ***return-oriented programming (ROP) attacks***, which always rely on knowing exact memory addresses of target functions or data.
 
 #### What is return oriented programming attack?
 ##### Data Execution Prevention(DEP)
-For memory protection, DEP designates portion of memory (e.g. stack, heap ) as non-executable. If a program or script tries to execute code from these protected areas, DEP terminates the process at once.
-Hardware-enforced DEP: Relies on a processor 's NX bit(No Execute Bit), requiring compatible CPUs that most modern processors could support.
-Software-enforced DEP
+For memory protection, DEP designates portion of memory (e.g. stack, heap ) as non-executable. If a program or script tries to execute code from these protected areas, DEP terminates the process at once.  
+Hardware-enforced DEP: Relies on a processor 's NX bit(No Execute Bit), requiring compatible CPUs that most modern processors could support.  
+Software-enforced DEP  
 ##### Address Space Layout Randomization(ASLR)
 Randomizing memory locations where critical system and application components are loaded, such as executables, libraries, heap, and stack. So that attackers can not reliably predict where to inject malicious code or hijack execution flow.
 
 ## Browser Security
 ### Same Origin Policy (SOP)
-It restricts how web pages or scripts from one origin can interact with resources from another origin.
-Mitigate Attacks : Block malicious scripts from accessing cookies, DOM elements, or API responses from another origin. Thwart cross-site scripting(XSS) and cross-site request forgery(CSRF) by isolating  origins.
+It restricts how web pages or scripts from one origin can interact with resources from another origin.  
+Mitigate Attacks : Block malicious scripts from accessing cookies, DOM elements, or API responses from another origin. Thwart cross-site scripting(XSS) and cross-site request forgery(CSRF) by isolating  origins.  
 
 #### What is Same Origin?[^1] 
 Two URLs are considered as same origin only if they match in:
@@ -90,14 +90,14 @@ Two URLs are considered as same origin only if they match in:
 + Domain Name 
 + Port
 > **Example**
-http://test.com/dir/index.html
-http://test.com/dir2/index.html(Same Origin, only path differs)
-https://test.com/dir/index.html(Different Origin, protocol differs)
-http://test.com:81/dir/index.html(Different Origin, port differs)
-http://test.org/dir/index.html(Different Origin, domain name differs)
+http://test.com/dir/index.html  
+http://test.com/dir2/index.html (Same Origin, only path differs)  
+https://test.com/dir/index.html (Different Origin, protocol differs)  
+http://test.com:81/dir/index.html (Different Origin, port differs)  
+http://test.org/dir/index.html (Different Origin, domain name differs)  
 
 #### What is Inheritance of Origin?
-If the script is executed by current URL, it will inherit the origin of this URL.
+If the script is executed by current URL, it will inherit the origin of this URL.  
 ```
 about:blank
 javascript:;
