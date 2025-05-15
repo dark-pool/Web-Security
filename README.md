@@ -41,7 +41,7 @@ Exploitatability: The effort or skill required to exploit the vulnerability|Requ
 Affected Users : The scale of users or systems impacted|Very few users, anonymous users, or non-essential systems|Part of users without default configuration|All users with default configuration, key users, or critical infrastructure
 Discoverability: How easily the vulnerability could be found|Require deep system knowledge to detect, that is hard to find|In private area, some people could see it and need to dig deeper into the vulnerability|Visible in public APIs or error message
 
-> **Example** 
+> **Example**  
 Threat: SQL Injection in a login page  
 Damage Potential : 3(Data theft possible )  
 Reproducibility: 3(Exploit code is public )  
@@ -57,7 +57,7 @@ Minimal Privilege : Grant necessary Privilege to the user
 ### Defense in Depth 
 Different layers achieve different solutions  
 Do the right thing at the right place  
-> **Example: UTM(Unified Threat Management )**
+> **Example: UTM(Unified Threat Management )**  
 UTM is an integrated solution that combines multiple features into a single platform or application to protect networks from a wide range of threats, particularly suited for small to medium-sized businesses (SMBs).  
 It acts as a centralized gateway, inspecting all network traffic and applying layered security policies. However, it does not follow defense in depth principle.  
 ### Data and Code Separation 
@@ -89,7 +89,7 @@ Two URLs are considered as same origin only if they match in:
 + Protocol 
 + Domain Name 
 + Port
-> **Example**
+> **Example**  
 http://test.com/dir/index.html  
 http://test.com/dir2/index.html (Same Origin, only path differs)  
 https://test.com/dir/index.html (Different Origin, protocol differs)  
@@ -102,16 +102,18 @@ If the script is executed by current URL, it will inherit the origin of this URL
 about:blank
 javascript:;
 ```
+[Test Experiment: InheritanceOfOrigin](https://github.com/dark-pool/Web-Security/tree/main/Test%20Experiment/InheritanceOfOrigin)  
+![Result](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/InheritanceOfOrigin/Output/67tool-2025-04-24%2022_21_33.png)
 
-From the result, we know that these two methods both can create a blank document that inherits the origin of the parent page. But there are two things need to pay attention :
-When using about:blank to open a blank page, new page' s origin is set as null, until load specific content in the new page. This is because the browser considers the new blank page as an opaque origin, and the behaviors may differ due to browser or version.
-Most modern browser restricts javascript: method to open a blank page.
+From the result, we know that these two methods both can create a blank document that inherits the origin of the parent page. But there are two things need to pay attention :  
+When using about:blank to open a blank page, new page' s origin is set as null, until load specific content in the new page. This is because the browser considers the new blank page as an opaque origin, and the behaviors may differ due to browser or version.  
+Most modern browser restricts javascript: method to open a blank page.  
 
-What is JSONP(JSON with Padding)?
+#### What is JSONP(JSON with Padding)?
 
 
-What is Cross-Origin Resource Sharing(CORS)? 
-CORS is a W3C standard that allows servers to inform browsers which sources can access the resources by sending additional HTTP header fields.
+#### What is Cross-Origin Resource Sharing(CORS)?[^2] 
+CORS is a W3C standard that allows servers to inform browsers which sources can access the resources by sending additional HTTP header fields.  
 For server, configure CORS response header field  :
 // Access-Control-Allow-Origin: Indicates whether the response can be shared with requesting code from the given origin
 Access-Control-Allow-Origin: *
@@ -1109,7 +1111,9 @@ POC Environment: Windows7 Professional+ Microsoft Internet Explorer
 添加图片注释，不超过 140 字（可选）
 Reference Books
 《白帽子讲Web安全》作者：吴翰清
-[^1]: https://blog.csdn.net/qq_74114417/article/details/144475186
+[^1]: https://blog.csdn.net/qq_74114417/article/details/144475186  
+[^2]: https://blog.csdn.net/weixin_26722031/article/details/108136630  
+
   
 ## Recommended Tools
 + NodeJS(v20.18.0): https://nodejs.org/en/download  

