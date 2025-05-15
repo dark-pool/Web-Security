@@ -103,7 +103,7 @@ about:blank
 javascript:;
 ```
 [Test Experiment: InheritanceOfOrigin](https://github.com/dark-pool/Web-Security/tree/main/Test%20Experiment/InheritanceOfOrigin)  
-![Result](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/InheritanceOfOrigin/Output/67tool-2025-04-24%2022_21_33.png)
+![Result](https://github.com/dark-pool/Web-Security/blob/main/Test%20Experiment/InheritanceOfOrigin/Output/67tool-2025-04-24%2022_21_33.png)  
 
 From the result, we know that these two methods both can create a blank document that inherits the origin of the parent page. But there are two things need to pay attention :  
 When using about:blank to open a blank page, new page' s origin is set as null, until load specific content in the new page. This is because the browser considers the new blank page as an opaque origin, and the behaviors may differ due to browser or version.  
@@ -114,7 +114,8 @@ Most modern browser restricts javascript: method to open a blank page.
 
 #### What is Cross-Origin Resource Sharing(CORS)?[^2] 
 CORS is a W3C standard that allows servers to inform browsers which sources can access the resources by sending additional HTTP header fields.  
-For server, configure CORS response header field  :
+For server, configure CORS response header field[^3]:  
+```
 // Access-Control-Allow-Origin: Indicates whether the response can be shared with requesting code from the given origin
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Origin: <origin>
@@ -124,6 +125,7 @@ Access-Control-Allow-Origin: null
 // Access-Control-Allow-Credentials: 
 // Access-Control-Allow-Methods
 // Access-Control-Max-Age
+```  
 For browser, when sending a cross-origin request, it would automatically add the origin header field to inform the server. Then the browser decides whether to allow cross-origin access based on CORS response header from server. (How it works? Simple Request & Complex Request)
 Implementing request headers for setting up CORS depends on the language and framework of the backend. For example, if using Express, so can use CORS middleware with all default configuration.
 Simple Request  
@@ -720,12 +722,13 @@ But this method can be bypassed using multiple iframes . For example:
 if ( top.location != self.location) {
    parent.location = self.location ; 
 }
-
+```
 // Bypass method
 Attacker top frame:
 <iframe src="attacker2 .html">
 Attacker sub-frame:
 <iframe src="http://www.victim.com">
+```  
 In addition, there are many ways to restrict the execution of JavaScript , so that to  invalidate framebusting, such as sandbox in HTML5 iframe, security in IE.
 X-Frame-Options
 Supported browser:
@@ -753,7 +756,7 @@ IE does not always follow the Content-Type header, prefers to MIME sniff based o
 Chrome/Safari follow the Content-Type, only when missing or wrong, they will check the first 256 bytes of the file content.
 Firefox also follow the Content-Type, but if vague type(such as text/plain), it will check the first 512 bytes of the file content.
 
-Common Vulnerabilities
+## Common Vulnerabilities
 CVE-2009-2265    
 Name: FCKeditor File Upload Vulnerability
 Affected systems: FCKeditor <=2.6.4.1 
@@ -768,6 +771,7 @@ Reference Books
 《白帽子讲Web安全》作者：吴翰清
 [^1]: https://blog.csdn.net/qq_74114417/article/details/144475186  
 [^2]: https://blog.csdn.net/weixin_26722031/article/details/108136630  
+[^3]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin  
 
   
 ## Recommended Tools
