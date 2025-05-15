@@ -189,28 +189,28 @@ Service Workers
 Per-Tab Sandbox : Multi-process Isolation : Each tab, extension, and plugin as a separate process with its own memory space and restricted OS access , so that prevents a single crashing tab from bringing down the entire browser.
 OS Integrity: On Windows, Chrome uses Job Objects and Win32k Lockdown to block system calls; On Linux/MacOS, it leverages namespaces and seccomp-bpf to limit resource access.
 Renderer Process Restrictions and GPU Sandbox: Blink Engine can not directly access the network or file system, or execute system commands or modify registry settings.
+![Google Chrome](https://github.com/dark-pool/Web-Security/blob/main/Assets/v2-fcb10a03832e1365b19e2e2d7638baf3_720w.png)    
 
-添加图片注释，不超过 140 字（可选）
 #### Example: Internet Explorer(IE)
-IE sandbox approach is less robust compared to Chrome.
-Single-process model: Older IE versions(pre-IE9) run all tabs in one process.
-Protected Mode: In IE 7 and later version, protected mode runs browser in a low-privilege environment , and restricted from writing sensitive locations(e.g., user profile folders, Program Files)
-Plugins like Flash often bypass the sandbox
+IE sandbox approach is less robust compared to Chrome.    
+Single-process model: Older IE versions(pre-IE9) run all tabs in one process.   
+Protected Mode: In IE 7 and later version, protected mode runs browser in a low-privilege environment , and restricted from writing sensitive locations(e.g., user profile folders, Program Files)    
+Plugins like Flash often bypass the sandbox   
+![IE](https://github.com/dark-pool/Web-Security/blob/main/Assets/v2-084eb6f9d58bd01f07a584770a3a9560_720w.png)    
 
-添加图片注释，不超过 140 字（可选）
-Malicious URL Interception
-What is Malicious URL?
-Webpage Hijacking/Malware Planting
-Injecting harmful code or scripts into a legitimate website or online platform. When users visit the compromised site, the hidden code automatically executes, which leading to:
-Malware Downloads: such as viruses, ransomware, or spyware onto victims device
-Phishing: Redirecting users to fake pages to get personal details, such as login credentials or financial data
-Botnet Recruitment: Enlisting devices into a network for large-scale attacks
-How it works?
-Example: Google Chrome
-Blacklist-based Filter: Maintains dynamic blacklists of malicious URLs, updated every 30-60 minutes. Including Phishing domains, Malware-hosting sites, Social engineering scams. 
-Real-Time URL Check: When visit a URL, Chrome sends a hashed version of address to Google's Safe Browsing API to verify its safety. SafeBrowsing API can be used by public.
-Machine Learning about Behavior Analysis: Detect suspicious patterns, such as newly registered domains mimicking legitimate sites.
-PhishTank  is one of the organizations offer free blacklist of malicious websites, which are provided by volunteers from all around the world.
+### Malicious URL Interception
+#### What is Malicious URL?
+**Webpage Hijacking/Malware Planting**: Injecting harmful code or scripts into a legitimate website or online platform. When users visit the compromised site, the hidden code automatically executes, which leading to:
++ Malware Downloads: such as viruses, ransomware, or spyware onto victims device
++ Phishing: Redirecting users to fake pages to get personal details, such as login credentials or financial data
++ Botnet Recruitment: Enlisting devices into a network for large-scale attacks
+#### How it works?
+**Example: Google Chrome**
++ Blacklist-based Filter: Maintains dynamic blacklists of malicious URLs, updated every 30-60 minutes. Including Phishing domains, Malware-hosting sites, Social engineering scams.   
++ Real-Time URL Check: When visit a URL, Chrome sends a hashed version of address to Google's Safe Browsing API to verify its safety. SafeBrowsing API can be used by public. 
++ Machine Learning about Behavior Analysis: Detect suspicious patterns, such as newly registered domains mimicking legitimate sites.
+
+> PhishTank[^6] is one of the organizations offer free blacklist of malicious websites, which are provided by volunteers from all around the world.
 
 添加图片注释，不超过 140 字（可选）
 Extended Validation SSL Certificate(EV SSL)
@@ -616,7 +616,7 @@ Reference Books
 [^3]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin  
 [^4]: https://juejin.cn/post/7404780384540098612  
 [^5]: https://www.cnblogs.com/daichangya/p/12959063.html    
-
+[^6]: https://www.phishtank.com/index.php
   
 ## Recommended Tools
 + NodeJS(v20.18.0): https://nodejs.org/en/download  
